@@ -38,20 +38,30 @@
                 <div class="card m-3 draggable" draggable="true" data-type="text" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Text</h5>
-
+                        <div class="m-3">
+                            <label class="form-label">Field name </label>
+                            <input type="text" class="form-control place_holder" placeholder="Field name....">
+                        </div>
                     </div>
                 </div>
                 <div class="card m-3 draggable" draggable="true" data-type="number" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Number</h5>
-
+                        <div class="m-3">
+                            <label class="form-label">Field name </label>
+                            <input type="text" class="form-control place_holder" placeholder="Field name....">
+                        </div>
                     </div>
                 </div>
-                <div class="card m-3 draggable" draggable="true" data-type="dropdown" style="width: 18rem;">
+                <div class="card m-3 draggable" draggable="true" data-type="button" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-
+                        <h5 class="card-title">Button</h5>
+                        <div class="m-3">
+                            <label class="form-label">Field name </label>
+                            <input type="text" class="form-control place_holder" placeholder="Field name....">
+                        </div>
                     </div>
+
                 </div>
             </div>
 
@@ -63,19 +73,26 @@
         const dropTarget = document.getElementById('dropTarget');
 
         class InputTemplates {
-            inputText() {
+            inputText(fieldName) {
                 return `
                 <div class="m-3">
-                    <label class="form-label">Text </label>
-                    <input type="text" class="form-control place_holder" name="input" placeholder="Field name....">
+                    <label class="form-label">${fieldName}</label>
+                    <input type="text" class="form-control place_holder" name="${fieldName}" placeholder="Something here...">
                 </div>
                 `;
             }
-            input() {
+            inputNumber(fieldName) {
                 return `
                 <div class="m-3">
-                    <label class="form-label">Text </label>
-                    <input type="number" class="form-control place_holder" name="input" placeholder="Field name....">
+                    <label class="form-label">${fieldName}</label>
+                    <input type="text" class="form-control place_holder" name="${fieldName}" placeholder="Some number here...">
+                </div>
+                `;
+            }
+            inputButton(fieldName) {
+                return `
+                <div class="m-3">
+                <button type="submit" class="btn btn-primary">${fieldName}</button> 
                 </div>
                 `;
             }
@@ -85,8 +102,12 @@
 
         Array.from(dragElements).forEach(e => {
             e.addEventListener('dragstart', (e) => {
-                console.log(e);
-                e.dataTransfer.setData('input', e.target.getAttribute('data-type'));
+                let element = e.target;
+                let input = element.querySelector(".form-control");
+                console.log(input);
+                e.dataTransfer.setData('input', element.getAttribute('data-type'));
+                e.dataTransfer.setData('fieldName', input.value);
+
             });
         })
 
@@ -97,16 +118,19 @@
 
         dropTarget.addEventListener('drop', (e) => {
             e.preventDefault();
-            const data = e.dataTransfer.getData('input');
-
+            const input = e.dataTransfer.getData('input');
+            const fieldName = e.dataTransfer.getData('fieldName');
             const droppedElement = document.createElement('div');
             var inputElement;
-            switch (data) {
+            switch (input) {
                 case "text":
-                    inputElement = templates.inputText();
+                    inputElement = templates.inputText(fieldName);
                     break;
-                case "text":
-                    inputElement = templates.inputText();
+                case "number":
+                    inputElement = templates.inputNumber(fieldName);
+                    break;
+                case "button":
+                    inputElement = templates.inputButton(fieldName);
                     break;
             }
             droppedElement.innerHTML = inputElement;
