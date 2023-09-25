@@ -2,7 +2,7 @@
     "name": "leon/builder",
     "autoload": {
         "psr-4": {
-            "App\\Builder\\": "src/"
+            "App\\": "src/"
         }
     },
     "authors": [
