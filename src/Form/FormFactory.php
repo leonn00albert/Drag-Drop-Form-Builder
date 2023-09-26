@@ -4,7 +4,7 @@ namespace App\Form;
 use App\Form\Form;
 use App\Form\Interface\Builder;
 
-class FormBuilder implements Builder
+class FormFactory implements Builder
 {
     private array $form = [] ;
     public function reset()
@@ -24,12 +24,6 @@ class FormBuilder implements Builder
     public function buildButton(string $name):void
     {
         $element = (object) ['type' => 'button', 'name' => $name];
-        $this->form[] = $element;
-    }
-
-    public function buildSubmit(string $name):void
-    {
-        $element = (object) ['type' => 'submit', 'name' => $name];
         $this->form[] = $element;
     }
 

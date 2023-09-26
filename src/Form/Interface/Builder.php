@@ -1,5 +1,5 @@
 <?php
-namespace App\Form;
+namespace App\Form\Interface; 
 
 interface Builder {
    public function reset();
